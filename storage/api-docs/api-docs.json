@@ -1,0 +1,474 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Admin Panel API",
+        "description": "This application is developed by full stack web developer Tugrul Yildirim",
+        "contact": {
+            "email": "contact@tugrulyildirim.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://admin.local/api/v1",
+            "description": "Demo API Server"
+        }
+    ],
+    "paths": {
+        "/api/v1/auth/register": {
+            "post": {
+                "tags": [
+                    "register"
+                ],
+                "summary": "Register a new user",
+                "description": "Returns the user data",
+                "operationId": "register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserAuthRequestSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserAuthResponseSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "409": {
+                        "description": "Conflict"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/login": {
+            "post": {
+                "tags": [
+                    "login"
+                ],
+                "summary": "Login a user",
+                "description": "Returns the user data",
+                "operationId": "login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserAuthRequestSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserAuthResponseSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "NotFound"
+                    },
+                    "409": {
+                        "description": "Conflict"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "UserAuthRequestSchema": {
+                "title": "User authentication request model",
+                "description": "User authentication request model",
+                "properties": {
+                    "id": {
+                        "title": "id",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "First name of the user",
+                        "type": "string",
+                        "example": "Tuğrul"
+                    },
+                    "surname": {
+                        "title": "Surname",
+                        "description": "Surname of the user",
+                        "type": "string",
+                        "example": "Yıldırım"
+                    },
+                    "username": {
+                        "title": "Username",
+                        "description": "Username for authentication",
+                        "type": "string",
+                        "example": "tugrulyildirim"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "description": "Password for authentication",
+                        "type": "string",
+                        "example": "123456"
+                    },
+                    "phone": {
+                        "title": "Phone",
+                        "description": "Phone number of the user",
+                        "type": "string",
+                        "example": "0532 123 45 67"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email address of the user",
+                        "type": "string",
+                        "format": "email",
+                        "example": "iletisim[at]tugrulyildirim.com"
+                    },
+                    "avatar": {
+                        "title": "Avatar",
+                        "description": "Avatar of the user",
+                        "type": "string",
+                        "example": "https://tugrulyildirim.com/avatar.jpg"
+                    },
+                    "bio": {
+                        "title": "Bio",
+                        "description": "Bio of the user",
+                        "type": "string",
+                        "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vitae ultricies lacinia, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet lorem. Sed euismod, nisl vitae ultricies lacinia, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet lorem."
+                    },
+                    "website": {
+                        "title": "Website",
+                        "description": "Website of the user",
+                        "type": "string",
+                        "example": "https://tugrulyildirim.com"
+                    },
+                    "company_id": {
+                        "title": "Company ID",
+                        "description": "Company ID of the user",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "top_user_id": {
+                        "title": "Top User ID",
+                        "description": "Top User ID of the user",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "city": {
+                        "title": "City",
+                        "description": "City of the user",
+                        "type": "string",
+                        "example": "İstanbul"
+                    },
+                    "country": {
+                        "title": "Country",
+                        "description": "Country of the user",
+                        "type": "string",
+                        "example": "Türkiye"
+                    },
+                    "address_line_1": {
+                        "title": "Address Line 1",
+                        "description": "Address Line 1 of the user",
+                        "type": "string",
+                        "example": "Kadıköy"
+                    },
+                    "address_line_2": {
+                        "title": "Address Line 2",
+                        "description": "Address Line 2 of the user",
+                        "type": "string",
+                        "example": "Kadıköy"
+                    },
+                    "address_line_3": {
+                        "title": "Address Line 3",
+                        "description": "Address Line 3 of the user",
+                        "type": "string",
+                        "example": "Kadıköy"
+                    },
+                    "postal_code": {
+                        "title": "Postal Code",
+                        "description": "Postal Code of the user",
+                        "type": "string",
+                        "example": "34732"
+                    },
+                    "state": {
+                        "title": "State",
+                        "description": "State of the user",
+                        "type": "string",
+                        "example": "İstanbul"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "description": "Description of the user",
+                        "type": "string",
+                        "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vitae ultricies lacinia, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet lorem. Sed euismod, nisl vitae ultricies lacinia, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet lorem."
+                    },
+                    "balance": {
+                        "title": "Balance",
+                        "description": "Balance of the user",
+                        "type": "number",
+                        "format": "double",
+                        "example": "1000"
+                    },
+                    "currency": {
+                        "title": "Currency",
+                        "description": "Currency of the user",
+                        "type": "string",
+                        "example": "TRY"
+                    },
+                    "discount": {
+                        "title": "Discount",
+                        "description": "Discount of the user",
+                        "type": "number",
+                        "format": "double",
+                        "example": "10"
+                    },
+                    "invoice_prefix": {
+                        "title": "Invoice Prefix",
+                        "description": "Invoice Prefix of the user",
+                        "type": "string",
+                        "example": "INV-2020-"
+                    },
+                    "timezone": {
+                        "title": "Timezone",
+                        "description": "Timezone of the user",
+                        "type": "string",
+                        "example": "Europe/Istanbul"
+                    },
+                    "status": {
+                        "title": "Status",
+                        "description": "Status of the user",
+                        "type": "boolean",
+                        "example": "1"
+                    },
+                    "created_at": {
+                        "title": "Created At",
+                        "description": "Created At of the user",
+                        "type": "string",
+                        "example": "2020-01-01 00:00:00"
+                    },
+                    "updated_at": {
+                        "title": "Updated At",
+                        "description": "Updated At of the user",
+                        "type": "string",
+                        "example": "2020-01-01 00:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserAuthRequestSchema"
+                }
+            },
+            "UserAuthResponseSchema": {
+                "title": "User authentication response model",
+                "description": "User authentication response model",
+                "properties": {
+                    "success": {
+                        "title": "Success",
+                        "description": "Success",
+                        "type": "boolean",
+                        "format": "boolean",
+                        "example": "true"
+                    },
+                    "id": {
+                        "title": "id",
+                        "description": "User ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "username": {
+                        "title": "Username",
+                        "description": "Username for authentication",
+                        "type": "string",
+                        "format": "string",
+                        "example": "tugrulyildirim"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "First name of the user",
+                        "type": "string",
+                        "format": "string",
+                        "example": "Tuğrul"
+                    },
+                    "surname": {
+                        "title": "Surname",
+                        "description": "Surname of the user",
+                        "type": "string",
+                        "format": "string",
+                        "example": "Yıldırım"
+                    },
+                    "user": {
+                        "title": "User",
+                        "description": "All user information",
+                        "type": "object",
+                        "format": "object",
+                        "example": {
+                            "id": 1,
+                            "username": "tugrulyildirim",
+                            "name": "Tuğrul",
+                            "surname": "Yıldırım",
+                            "email": "iletisim[at]tugrulyildirim.com"
+                        }
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email of the user",
+                        "type": "string",
+                        "format": "string",
+                        "example": "iletisim[at]tugrulyildirim.com",
+                        "nullable": true
+                    },
+                    "access_token": {
+                        "title": "Access Token",
+                        "description": "Access Token",
+                        "type": "string",
+                        "format": "string",
+                        "example": "token12313123..."
+                    },
+                    "token_type": {
+                        "title": "Token Type",
+                        "description": "Token Type",
+                        "type": "string",
+                        "format": "string",
+                        "example": "Bearer"
+                    },
+                    "expires_at": {
+                        "title": "Expires at",
+                        "description": "Expires at",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 3600
+                    },
+                    "is_active": {
+                        "title": "Is it active?",
+                        "description": "Is it active?",
+                        "type": "boolean",
+                        "format": "boolean",
+                        "example": true
+                    },
+                    "privileges": {
+                        "title": "Privileges",
+                        "description": "All privileges of the user",
+                        "type": "array",
+                        "format": "array",
+                        "items": {
+                            "type": "object",
+                            "example": {
+                                "name": "admin",
+                                "value": true
+                            }
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserAuthResponseSchema"
+                }
+            },
+            "ProjectResource": {
+                "title": "ProjectResource",
+                "description": "Project resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {}
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ProjectResource"
+                }
+            },
+            "StoreUserRequests": {
+                "title": "Store User request",
+                "description": "Store User request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new user",
+                        "type": "string",
+                        "example": "A nice project"
+                    },
+                    "description": {
+                        "title": "description",
+                        "description": "Description of the new user",
+                        "type": "string",
+                        "example": "This is new project's description"
+                    },
+                    "author_id": {
+                        "title": "author_id",
+                        "description": "Author's id of the new project",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "passport": {
+                "type": "oauth2",
+                "description": "Laravel passport oauth2 security.",
+                "in": "header",
+                "scheme": "https",
+                "flows": {
+                    "password": {
+                        "authorizationUrl": "http://admin.local/api/v1/auth/authorize",
+                        "tokenUrl": "http://admin.local/api/v1/auth/token",
+                        "refreshUrl": "http://admin.local/api/v1/auth/token/refresh",
+                        "scopes": []
+                    }
+                }
+            },
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Projects",
+            "description": "API Endpoints of Projects"
+        }
+    ]
+}
