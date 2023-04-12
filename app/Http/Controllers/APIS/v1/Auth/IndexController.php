@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use OpenApi\Annotations as OA;
 
 class IndexController extends Controller
 {
     /**
      * @OA\Post(
-     *      path="/api/v1/auth/register",
+     *      path="/auth/register",
      *      operationId="register",
      *      tags={"register"},
      *      summary="Register a new user",
@@ -93,7 +94,7 @@ class IndexController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/v1/auth/login",
+     *      path="/auth/login",
      *      operationId="login",
      *      tags={"login"},
      *      summary="Login a user",
@@ -159,26 +160,78 @@ class IndexController extends Controller
         ], 203);
     }
 
+    /**
+     * @OA\Post(
+     *      path="/auth/logout",
+     *      operationId="logout",
+     *      tags={"logout"},
+     *      summary="Logout a user",
+     *      description="Returns the user data",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/UserLogoutRequestSchema")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/UserLogoutResponseSchema")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="NotFound",
+     *      )
+     *     )
+     */
     public function logout(Request $request)
     {
+        if(!$request->user()){
+            return response()->json([
+                'message' => 'user_not_found'
+            ], 404);
+        }
         $request->user()->token()->revoke();
         return response()->json([
-            'message' => 'Logout successfully'
+            'message' => 'logout_success'
         ]);
     }
 
-    public function user(Request $request)
-    {
-        return response()->json($request->user());
-    }
-
+    /**
+     * @OA\Post(
+     *     path="/auth/refresh",
+     *     tags={"refresh"},
+     *     summary="Refresh token",
+     *     description="Returns the user data",
+     *     @OA\RequestBody(
+     *     required=true,
+     *     @OA\JsonContent(ref="#/components/schemas/UserCheckTokenRequestSchema")
+     *     ),
+     *     @OA\Response(
+     *     response=200,
+     *     description="Successful operation",
+     *     @OA\JsonContent(ref="#/components/schemas/UserCheckTokenResponseSchema")
+     *     ),
+     *     @OA\Response(
+     *     response=401,
+     *     description="Unauthenticated",
+     *     @OA\JsonContent(ref="#/components/schemas/UserCheckTokenResponseSchema")
+     *     )
+     *   )
+     */
     public function checkToken(Request $request)
     {
         if (Auth::check()){
             return response()->json([
                 'success' => true,
                 'token' => $request->bearerToken(),
-                'message' => 'Token is valid'
+                'message' => 'token_is_valid'
             ], 200);
         }
 
@@ -189,7 +242,29 @@ class IndexController extends Controller
         ], 401);
     }
 
-
+    /**
+     * @OA\Post(
+     *     path="/auth/authorize",
+     *     tags={"authorize"},
+     *     summary="Check if user is logged in",
+     *     description="Returns the user data",
+     *     @OA\RequestBody(
+     *     required=true,
+     *     @OA\JsonContent(ref="#/components/schemas/UserAuthorizeRequestSchema")
+     *   ),
+     *     @OA\Response(
+     *     response=200,
+     *     description="Successful operation",
+     *     @OA\JsonContent(ref="#/components/schemas/UserAuthorizeResponseSchema")
+     *  ),
+     *     @OA\Response(
+     *     response=401,
+     *     description="Unauthenticated",
+     *     @OA\JsonContent(ref="#/components/schemas/UserAuthorizeResponseSchema")
+     * )
+     * )
+     *
+     */
     public function authentication(Request $request)
     {
         $user = [];
@@ -200,5 +275,80 @@ class IndexController extends Controller
             'user' => $user,
             'isLoggedIn' => Auth::check()
         ], 200);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/auth/change-password",
+     *     tags={"authorize"},
+     *     summary="Check if user is logged in",
+     *     description="Returns the user data",
+     *     @OA\RequestBody(
+     *     required=true,
+     *     @OA\JsonContent(ref="#/components/schemas/UserPasswordChangeRequestSchema")
+     *   ),
+     *     @OA\Response(
+     *     response=200,
+     *     description="Successful operation",
+     *     @OA\JsonContent(ref="#/components/schemas/UserPasswordChangeResponseSchema")
+     *  ),
+     *     @OA\Response(
+     *     response=401,
+     *     description="Unauthenticated",
+     *     @OA\JsonContent(ref="#/components/schemas/UserPasswordChangeResponseSchema")
+     * )
+     * )
+     *
+     */
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            "old_password" => "required",
+            "new_password" => "required|confirmed|min:8",
+            "confirm_password" => "required|same:new_password"
+        ],[
+            "old_password.required" => "old_password_required",
+            "new_password.required" => "new_password_required",
+            "new_password.confirmed" => "new_password_not_match",
+            "new_password.min" => "new_password_min_length",
+            "confirm_password.required" => "confirm_password_required",
+            "confirm_password.same" => "confirm_password_not_match"
+        ]);
+
+        $user = $request->user();
+        if ($user->password != Hash::make($request->old_password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'old_password_not_match'
+            ], 406);
+        }
+
+        if ($user->password == Hash::make($request->new_password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'new_password_same_as_old'
+            ], 406);
+        }
+
+        if ($request->new_password != $request->confirm_password) {
+            return response()->json([
+                'success' => false,
+                'message' => 'password_not_match'
+            ], 401);
+        }
+
+        $user->password = Hash::make($request->new_password);
+
+        if ($user->save()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'password_changed'
+            ], 204);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'password_not_changed'
+            ], 304);
+        }
     }
 }

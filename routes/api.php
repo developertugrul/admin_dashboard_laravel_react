@@ -7,6 +7,7 @@ Route::group(["prefix" => "v1"], function () {
     Route::group(["prefix" => "auth"], function () {
         Route::post("register", [\App\Http\Controllers\APIS\v1\Auth\IndexController::class, "register"])->name("api.v1.auth.register")->middleware("auth:api");
         Route::post("login", [\App\Http\Controllers\APIS\v1\Auth\IndexController::class, "login"])->name("api.v1.auth.login");
+        Route::post("change-password", [\App\Http\Controllers\APIS\v1\Auth\IndexController::class, "changePassword"])->name("api.v1.auth.changePassword");
         Route::post("authorize", [\App\Http\Controllers\APIS\v1\Auth\IndexController::class, "authentication"])->name("api.v1.auth.authentication")->name("api.v1.auth.authentication");
         Route::post("token/refresh", [\App\Http\Controllers\APIS\v1\Auth\IndexController::class, "checkToken"])->name("api.v1.auth.refreshToken")->name("api.v1.auth.refreshToken");
         Route::post("token", [\App\Http\Controllers\APIS\v1\Auth\IndexController::class, "checkToken"])->name("api.v1.auth.checkToken")->name("api.v1.auth.checkToken");

@@ -19,7 +19,7 @@
         }
     ],
     "paths": {
-        "/api/v1/auth/register": {
+        "/auth/register": {
             "post": {
                 "tags": [
                     "register"
@@ -60,7 +60,7 @@
                 }
             }
         },
-        "/api/v1/auth/login": {
+        "/auth/login": {
             "post": {
                 "tags": [
                     "login"
@@ -103,6 +103,173 @@
                     }
                 }
             }
+        },
+        "/auth/logout": {
+            "post": {
+                "tags": [
+                    "logout"
+                ],
+                "summary": "Logout a user",
+                "description": "Returns the user data",
+                "operationId": "logout",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserLogoutRequestSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserLogoutResponseSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "NotFound"
+                    }
+                }
+            }
+        },
+        "/auth/refresh": {
+            "post": {
+                "tags": [
+                    "refresh"
+                ],
+                "summary": "Refresh token",
+                "description": "Returns the user data",
+                "operationId": "2f35a9fa078ee4c8122aad8b8c0adc33",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserCheckTokenRequestSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserCheckTokenResponseSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserCheckTokenResponseSchema"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/authorize": {
+            "post": {
+                "tags": [
+                    "authorize"
+                ],
+                "summary": "Check if user is logged in",
+                "description": "Returns the user data",
+                "operationId": "87962c23d9bbaf3f3b9d5e3eb545adb0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserAuthorizeRequestSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserAuthorizeResponseSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserAuthorizeResponseSchema"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/change-password": {
+            "post": {
+                "tags": [
+                    "authorize"
+                ],
+                "summary": "Check if user is logged in",
+                "description": "Returns the user data",
+                "operationId": "e9210ecd43221a32527c555522eb5ade",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserPasswordChangeRequestSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserPasswordChangeResponseSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserPasswordChangeResponseSchema"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -111,28 +278,9 @@
                 "title": "User authentication request model",
                 "description": "User authentication request model",
                 "properties": {
-                    "id": {
-                        "title": "id",
-                        "description": "ID",
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "name": {
-                        "title": "Name",
-                        "description": "First name of the user",
-                        "type": "string",
-                        "example": "Tuğrul"
-                    },
-                    "surname": {
-                        "title": "Surname",
-                        "description": "Surname of the user",
-                        "type": "string",
-                        "example": "Yıldırım"
-                    },
                     "username": {
                         "title": "Username",
-                        "description": "Username for authentication",
+                        "description": "Username of the user",
                         "type": "string",
                         "example": "tugrulyildirim"
                     },
@@ -141,147 +289,6 @@
                         "description": "Password for authentication",
                         "type": "string",
                         "example": "123456"
-                    },
-                    "phone": {
-                        "title": "Phone",
-                        "description": "Phone number of the user",
-                        "type": "string",
-                        "example": "0532 123 45 67"
-                    },
-                    "email": {
-                        "title": "Email",
-                        "description": "Email address of the user",
-                        "type": "string",
-                        "format": "email",
-                        "example": "iletisim[at]tugrulyildirim.com"
-                    },
-                    "avatar": {
-                        "title": "Avatar",
-                        "description": "Avatar of the user",
-                        "type": "string",
-                        "example": "https://tugrulyildirim.com/avatar.jpg"
-                    },
-                    "bio": {
-                        "title": "Bio",
-                        "description": "Bio of the user",
-                        "type": "string",
-                        "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vitae ultricies lacinia, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet lorem. Sed euismod, nisl vitae ultricies lacinia, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet lorem."
-                    },
-                    "website": {
-                        "title": "Website",
-                        "description": "Website of the user",
-                        "type": "string",
-                        "example": "https://tugrulyildirim.com"
-                    },
-                    "company_id": {
-                        "title": "Company ID",
-                        "description": "Company ID of the user",
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "top_user_id": {
-                        "title": "Top User ID",
-                        "description": "Top User ID of the user",
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "city": {
-                        "title": "City",
-                        "description": "City of the user",
-                        "type": "string",
-                        "example": "İstanbul"
-                    },
-                    "country": {
-                        "title": "Country",
-                        "description": "Country of the user",
-                        "type": "string",
-                        "example": "Türkiye"
-                    },
-                    "address_line_1": {
-                        "title": "Address Line 1",
-                        "description": "Address Line 1 of the user",
-                        "type": "string",
-                        "example": "Kadıköy"
-                    },
-                    "address_line_2": {
-                        "title": "Address Line 2",
-                        "description": "Address Line 2 of the user",
-                        "type": "string",
-                        "example": "Kadıköy"
-                    },
-                    "address_line_3": {
-                        "title": "Address Line 3",
-                        "description": "Address Line 3 of the user",
-                        "type": "string",
-                        "example": "Kadıköy"
-                    },
-                    "postal_code": {
-                        "title": "Postal Code",
-                        "description": "Postal Code of the user",
-                        "type": "string",
-                        "example": "34732"
-                    },
-                    "state": {
-                        "title": "State",
-                        "description": "State of the user",
-                        "type": "string",
-                        "example": "İstanbul"
-                    },
-                    "description": {
-                        "title": "Description",
-                        "description": "Description of the user",
-                        "type": "string",
-                        "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vitae ultricies lacinia, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet lorem. Sed euismod, nisl vitae ultricies lacinia, nunc nisl aliquet nisl, eget aliquam nisl nisl sit amet lorem."
-                    },
-                    "balance": {
-                        "title": "Balance",
-                        "description": "Balance of the user",
-                        "type": "number",
-                        "format": "double",
-                        "example": "1000"
-                    },
-                    "currency": {
-                        "title": "Currency",
-                        "description": "Currency of the user",
-                        "type": "string",
-                        "example": "TRY"
-                    },
-                    "discount": {
-                        "title": "Discount",
-                        "description": "Discount of the user",
-                        "type": "number",
-                        "format": "double",
-                        "example": "10"
-                    },
-                    "invoice_prefix": {
-                        "title": "Invoice Prefix",
-                        "description": "Invoice Prefix of the user",
-                        "type": "string",
-                        "example": "INV-2020-"
-                    },
-                    "timezone": {
-                        "title": "Timezone",
-                        "description": "Timezone of the user",
-                        "type": "string",
-                        "example": "Europe/Istanbul"
-                    },
-                    "status": {
-                        "title": "Status",
-                        "description": "Status of the user",
-                        "type": "boolean",
-                        "example": "1"
-                    },
-                    "created_at": {
-                        "title": "Created At",
-                        "description": "Created At of the user",
-                        "type": "string",
-                        "example": "2020-01-01 00:00:00"
-                    },
-                    "updated_at": {
-                        "title": "Updated At",
-                        "description": "Updated At of the user",
-                        "type": "string",
-                        "example": "2020-01-01 00:00:00"
                     }
                 },
                 "type": "object",
@@ -329,17 +336,7 @@
                         "example": "Yıldırım"
                     },
                     "user": {
-                        "title": "User",
-                        "description": "All user information",
-                        "type": "object",
-                        "format": "object",
-                        "example": {
-                            "id": 1,
-                            "username": "tugrulyildirim",
-                            "name": "Tuğrul",
-                            "surname": "Yıldırım",
-                            "email": "iletisim[at]tugrulyildirim.com"
-                        }
+                        "$ref": "#/components/schemas/UserResource"
                     },
                     "email": {
                         "title": "Email",
@@ -396,6 +393,85 @@
                     "name": "UserAuthResponseSchema"
                 }
             },
+            "UserAuthorizeRequestSchema": {
+                "title": "User authorisation request model",
+                "description": "User authorisation request model",
+                "properties": {
+                    "token": {
+                        "title": "Token",
+                        "description": "Send token in header",
+                        "type": "string",
+                        "format": "string",
+                        "example": "bearer token123..."
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserAuthorizeRequestSchema"
+                }
+            },
+            "UserCheckTokenRequestSchema": {
+                "title": "User check token request model",
+                "description": "User check token request model",
+                "properties": {
+                    "token": {
+                        "title": "Token",
+                        "description": "Token for check",
+                        "type": "string",
+                        "format": "string",
+                        "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaXNfYWN0aXZlIjoxLCJ1c2VyX3R5cGUiOjIsImVtYWlsIjoidHVncnVsQGdtYWlsLmNvbSIsInVzZXJuYW"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserCheckTokenRequestSchema"
+                }
+            },
+            "UserLogoutRequestSchema": {
+                "title": "User logout request model",
+                "description": "User logout request model",
+                "properties": {
+                    "token": {
+                        "title": "Token",
+                        "description": "Token for logout",
+                        "type": "string",
+                        "format": "string",
+                        "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaXNfYWN0aXZlIjoxLCJ1c2VyX3R5cGUiOjIsImVtYWlsIjoidHVncnVsQGdtYWlsLmNvbSIsInVzZXJuYW"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserLogoutRequestSchema"
+                }
+            },
+            "UserPasswordChangeRequestSchema": {
+                "title": "User password change request model",
+                "description": "User password change request model",
+                "properties": {
+                    "old_password": {
+                        "title": "Old password",
+                        "description": "Old password",
+                        "type": "string",
+                        "example": "123456"
+                    },
+                    "new_password": {
+                        "title": "New password",
+                        "description": "New password",
+                        "type": "string",
+                        "example": "123456"
+                    },
+                    "confirm_password": {
+                        "title": "Confirm password",
+                        "description": "Confirm new password",
+                        "type": "string",
+                        "example": "123456"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserPasswordChangeRequestSchema"
+                }
+            },
             "ProjectResource": {
                 "title": "ProjectResource",
                 "description": "Project resource",
@@ -440,6 +516,316 @@
                     }
                 },
                 "type": "object"
+            },
+            "UserAuthorizeResponseSchema": {
+                "title": "User authorisation response model",
+                "description": "User authorisation response model",
+                "properties": {
+                    "user": {
+                        "$ref": "#/components/schemas/UserResource"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserAuthorizeResponseSchema"
+                }
+            },
+            "UserCheckTokenResponseSchema": {
+                "title": "User check token response model",
+                "description": "User check token response model",
+                "properties": {
+                    "success": {
+                        "title": "Success",
+                        "description": "Success",
+                        "type": "boolean",
+                        "format": "boolean",
+                        "example": "true"
+                    },
+                    "token": {
+                        "title": "token",
+                        "description": "User token",
+                        "type": "string",
+                        "format": "string",
+                        "example": "bearer token123..."
+                    },
+                    "message": {
+                        "title": "message",
+                        "description": "Response message",
+                        "type": "string",
+                        "format": "string",
+                        "example": "token_is_valid"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserCheckTokenResponseSchema"
+                }
+            },
+            "UserLogoutResponseSchema": {
+                "title": "User logout response model",
+                "description": "User logout response mode",
+                "properties": {
+                    "success": {
+                        "title": "Message",
+                        "description": "Message of the response",
+                        "type": "string",
+                        "format": "boolean",
+                        "example": "logout_success"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserLogoutResponseSchema"
+                }
+            },
+            "UserPasswordChangeResponseSchema": {
+                "title": "User password change response model",
+                "description": "User password change response model",
+                "properties": {
+                    "message": {
+                        "title": "Message",
+                        "description": "Message of the response",
+                        "type": "string",
+                        "example": "password_change_success"
+                    },
+                    "success": {
+                        "title": "Success",
+                        "description": "Success of the response",
+                        "type": "boolean",
+                        "format": "boolean",
+                        "example": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserPasswordChangeResponseSchema"
+                }
+            },
+            "UserResource": {
+                "title": "User resource",
+                "description": "User resource",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "description": "Id of the user",
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": "1"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of the user",
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "Tugrul"
+                    },
+                    "surname": {
+                        "title": "Surname",
+                        "description": "Surname of the user",
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "Yıldırım"
+                    },
+                    "username": {
+                        "title": "Username",
+                        "description": "Username of the user for login",
+                        "type": "string",
+                        "maxLength": 30,
+                        "example": "tugrulyildirim"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "description": "Password of the user",
+                        "type": "string",
+                        "maxLength": 500,
+                        "example": "MyPassword123"
+                    },
+                    "phone": {
+                        "title": "Phone",
+                        "description": "Phone number of the user",
+                        "type": "string",
+                        "maxLength": 50,
+                        "example": "+905312354229"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email of the user",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "contact[at]tugrulyildirim.com"
+                    },
+                    "avatar": {
+                        "title": "Avatar",
+                        "description": "Avatar of the user",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "https://tugrulyildirim.com/avatar.png"
+                    },
+                    "bio": {
+                        "title": "Bio",
+                        "description": "Biography of the user",
+                        "type": "string",
+                        "maxLength": 1000,
+                        "example": "I am a software developer"
+                    },
+                    "website": {
+                        "title": "Website",
+                        "description": "Website of the user",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "https://tugrulyildirim.com"
+                    },
+                    "company_id": {
+                        "title": "Company ID",
+                        "description": "Company of the user",
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": "1"
+                    },
+                    "city": {
+                        "title": "City",
+                        "description": "City of the user",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "İstanbul"
+                    },
+                    "country": {
+                        "title": "Country",
+                        "description": "Country of the user",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Turkey"
+                    },
+                    "address_line_1": {
+                        "title": "Address line 1",
+                        "description": "First address line of the user",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "İstanbul Turkey"
+                    },
+                    "address_line_2": {
+                        "title": "Address line 2",
+                        "description": "Second address line of the user",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "İstanbul Turkey"
+                    },
+                    "address_line_3": {
+                        "title": "Address line 3",
+                        "description": "Third address line of the user",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "İstanbul Turkey"
+                    },
+                    "postal_code": {
+                        "title": "Postal code",
+                        "description": "Postal code of the use",
+                        "type": "string",
+                        "maxLength": 30,
+                        "example": "34000"
+                    },
+                    "state": {
+                        "title": "State",
+                        "description": "State of the user",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "İstanbul"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "description": "Description of the user",
+                        "type": "string",
+                        "maxLength": 1000,
+                        "example": "I am a software developer"
+                    },
+                    "balance": {
+                        "title": "Balance",
+                        "description": "Balance of the user",
+                        "type": "number",
+                        "format": "double",
+                        "example": "0.00"
+                    },
+                    "currency": {
+                        "title": "Currency",
+                        "description": "Default currency of the user",
+                        "type": "string",
+                        "maxLength": 3,
+                        "example": "TRY"
+                    },
+                    "discount": {
+                        "title": "Discount",
+                        "description": "Default discount of the user",
+                        "type": "number",
+                        "format": "double",
+                        "example": "0.00"
+                    },
+                    "invoice_prefix": {
+                        "title": "Invoice prefix",
+                        "description": "Default invoice prefix of the user",
+                        "type": "string",
+                        "maxLength": 10,
+                        "example": "INV-"
+                    },
+                    "default_tax_rate": {
+                        "title": "Default tax rate",
+                        "description": "Default tax rate of the user",
+                        "type": "number",
+                        "format": "double",
+                        "example": "18.00"
+                    },
+                    "timezone": {
+                        "title": "Timezone",
+                        "description": "Default timezone of the user",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Europe/Istanbul"
+                    },
+                    "language": {
+                        "title": "Language",
+                        "description": "Default language of the user",
+                        "type": "string",
+                        "maxLength": 7,
+                        "example": "tr"
+                    },
+                    "user_roles": {
+                        "title": "User role list",
+                        "description": "User role list of the user",
+                        "type": "string",
+                        "maxLength": 1000,
+                        "example": "1,2,3,4,5"
+                    },
+                    "status": {
+                        "title": "Status",
+                        "description": "Status of the user",
+                        "type": "boolean",
+                        "example": "true"
+                    },
+                    "email_verified_at": {
+                        "title": "Email verified at",
+                        "description": "Email verified at of the user",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-01-01 00:00:00"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at of the user",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-01-01 00:00:00"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at of the user",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-01-01 00:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserResource"
+                }
             }
         },
         "securitySchemes": {

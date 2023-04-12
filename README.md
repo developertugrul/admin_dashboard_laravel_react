@@ -1,4 +1,4 @@
-# Welcome to the OpenSource admin panel for your server!
+# Welcome to the OpenSource admin panel to manage your personal or business website.
 
 ## What is this?
 

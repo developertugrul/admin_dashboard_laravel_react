@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\UserRolesList;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,20 +14,12 @@ class RoleChecker
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param Request $request
+     * @param Closure(Request): (Response) $next
+     * @return Response
      */
-    public function handle(Request $request, Closure $next, $super_adminRole, $adminRole,  $sellerRole): Response
+    public function handle(Request $request, Closure $next): Response
     {
-        $roles = Auth::check() ? Auth::user()->role->pluck('name')->toArray() : [];
-
-        if (in_array($super_adminRole, $roles)) {
-            return $next($request);
-        } else if (in_array($adminRole, $roles)) {
-            return $next($request);
-        } else if (in_array($sellerRole, $roles)) {
-            return $next($request);
-        }
-
-        return Redirect::route('login');
+        return $next($request);
     }
 }

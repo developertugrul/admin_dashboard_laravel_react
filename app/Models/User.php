@@ -68,4 +68,9 @@ class User extends Authenticatable
     public function findForPassport($username) {
         return $this->where('username', $username)->first();
     }
+
+    // list of all user roles
+    public function roles() {
+        return $this->hasMany(UserRolesList::class, "user_id", "id");
+    }
 }

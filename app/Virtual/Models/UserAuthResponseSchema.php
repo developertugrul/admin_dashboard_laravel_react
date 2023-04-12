@@ -76,16 +76,17 @@ class UserAuthResponseSchema
      */
     private $surname;
 
+
     /**
      * @OA\Property(
      *     title="User",
-     *     description="All user information",
-     *     format="object",
-     *     example={"id":1, "username": "tugrulyildirim", "name": "Tuğrul", "surname": "Yıldırım", "email": "iletisim[at]tugrulyildirim.com"}
+     *     description="User data",
+     *     ref="#/components/schemas/UserResource"
      * )
      *
-     * @var object
+     * @var \App\Virtual\Resources\UserResource
      */
+
     private $user;
 
     /**
