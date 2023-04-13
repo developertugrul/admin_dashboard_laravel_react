@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\APIS\v1\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -15,12 +16,12 @@ class IndexController extends Controller
      * @OA\Post(
      *      path="/auth/register",
      *      operationId="register",
-     *      tags={"register"},
+     *      tags={"Register a new user"},
      *      summary="Register a new user",
-     *      description="Returns the user data",
+     *      description="Returns the user data, token, status code and message",
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/UserAuthRequestSchema")
+     *          @OA\JsonContent(ref="#/components/schemas/UserAuthRegisterRequestSchema")
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -56,14 +57,13 @@ class IndexController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            "is_active" => $request->is_active,
-            "user_type" => 2,
+            "is_active" => $request->is_active
         ]);
         if ($user->save()) {
-            $credentials = ['username' => $request->username, 'password' => $request->password]; // get credentials from request
-            if (!Auth::attempt($credentials)) { // if login fails
+            $credentials = request(['username', 'password']);
+            if (!Auth::attempt($credentials)) {
                 return response()->json([
-                    'message' => 'Invalid credentials'
+                    'message' => 'invalid_credentials'
                 ], 401);
             }
             $user = $request->user();
@@ -83,7 +83,7 @@ class IndexController extends Controller
                 "is_active" => $user->is_active,
                 'token_type' => 'Bearer',
                 'expires_at' => (int)round(Carbon::parse($tokenResult->token->expires_at)->format('Uu') / pow(10, 6 - 3)),
-                "privileges" => $user->privileges
+                "user_roles" => $user->user_roles
             ], 203);
         } else {
             return response()->json([
@@ -96,9 +96,9 @@ class IndexController extends Controller
      * @OA\Post(
      *      path="/auth/login",
      *      operationId="login",
-     *      tags={"login"},
+     *      tags={"Login using username and password"},
      *      summary="Login a user",
-     *      description="Returns the user data",
+     *      description="Returns the user data, token, expires_at and token_type",
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(ref="#/components/schemas/UserAuthRequestSchema")
@@ -136,7 +136,7 @@ class IndexController extends Controller
         $credentials = request(['username', 'password']);
         if (!Auth::attempt($credentials)) {
             return response()->json([
-                'message' => 'Invalid credentials'
+                'message' => 'invalid_credentials'
             ], 401);
         }
         $user = $request->user();
@@ -156,7 +156,7 @@ class IndexController extends Controller
             "is_active" => $user->is_active,
             'token_type' => 'Bearer',
             'expires_at' => (int)round(Carbon::parse($tokenResult->token->expires_at)->format('Uu') / pow(10, 6 - 3)),
-            "privileges" => $user->privileges
+            "user_roles" => $user->user_roles
         ], 203);
     }
 
@@ -164,9 +164,10 @@ class IndexController extends Controller
      * @OA\Post(
      *      path="/auth/logout",
      *      operationId="logout",
-     *      tags={"logout"},
+     *      tags={"Logout the user"},
      *      summary="Logout a user",
-     *      description="Returns the user data",
+     *      security={{"passport": {}},},
+     *      description="Returns the status of the operation",
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(ref="#/components/schemas/UserLogoutRequestSchema")
@@ -205,10 +206,11 @@ class IndexController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/auth/refresh",
-     *     tags={"refresh"},
-     *     summary="Refresh token",
-     *     description="Returns the user data",
+     *     path="/auth/token",
+     *     tags={"Check the token is valid"},
+     *     summary="Check token",
+     *     security={{"passport": {}},},
+     *     description="Returns token, status and message",
      *     @OA\RequestBody(
      *     required=true,
      *     @OA\JsonContent(ref="#/components/schemas/UserCheckTokenRequestSchema")
@@ -245,8 +247,9 @@ class IndexController extends Controller
     /**
      * @OA\Post(
      *     path="/auth/authorize",
-     *     tags={"authorize"},
+     *     tags={"Get authorized user data"},
      *     summary="Check if user is logged in",
+     *     security={{"passport": {}},},
      *     description="Returns the user data",
      *     @OA\RequestBody(
      *     required=true,
@@ -280,9 +283,10 @@ class IndexController extends Controller
     /**
      * @OA\Post(
      *     path="/auth/change-password",
-     *     tags={"authorize"},
+     *     tags={"Change authorized user's password"},
      *     summary="Check if user is logged in",
-     *     description="Returns the user data",
+     *     security={{"passport": {}},},
+     *     description="Returns password change status",
      *     @OA\RequestBody(
      *     required=true,
      *     @OA\JsonContent(ref="#/components/schemas/UserPasswordChangeRequestSchema")
@@ -350,5 +354,39 @@ class IndexController extends Controller
                 'message' => 'password_not_changed'
             ], 304);
         }
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/auth/token/refresh",
+     *     tags={"Refresh token"},
+     *     summary="Refresh token",
+     *     description="Returns new token",
+     *     security={{"passport": {}},},
+     *     @OA\Response(
+     *      response=200,
+     *       description="Success",
+     *      @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *   )
+     * )
+     *
+     */
+    public function refreshToken(Request $request)
+    {
+        $user = $request->user();
+        $token = $user->createToken('authToken')->accessToken;
+
+        // set token expiry time
+        $user->token()->update([
+            'expires_at' => Carbon::now()->addDay()
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'token' => $token,
+            'message' => 'token_refreshed'
+        ], 200);
     }
 }

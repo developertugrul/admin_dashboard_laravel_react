@@ -22,17 +22,17 @@
         "/auth/register": {
             "post": {
                 "tags": [
-                    "register"
+                    "Register a new user"
                 ],
                 "summary": "Register a new user",
-                "description": "Returns the user data",
+                "description": "Returns the user data, token, status code and message",
                 "operationId": "register",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/UserAuthRequestSchema"
+                                "$ref": "#/components/schemas/UserAuthRegisterRequestSchema"
                             }
                         }
                     }
@@ -63,10 +63,10 @@
         "/auth/login": {
             "post": {
                 "tags": [
-                    "login"
+                    "Login using username and password"
                 ],
                 "summary": "Login a user",
-                "description": "Returns the user data",
+                "description": "Returns the user data, token, expires_at and token_type",
                 "operationId": "login",
                 "requestBody": {
                     "required": true,
@@ -107,10 +107,10 @@
         "/auth/logout": {
             "post": {
                 "tags": [
-                    "logout"
+                    "Logout the user"
                 ],
                 "summary": "Logout a user",
-                "description": "Returns the user data",
+                "description": "Returns the status of the operation",
                 "operationId": "logout",
                 "requestBody": {
                     "required": true,
@@ -142,17 +142,22 @@
                     "404": {
                         "description": "NotFound"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             }
         },
-        "/auth/refresh": {
+        "/auth/token": {
             "post": {
                 "tags": [
-                    "refresh"
+                    "Check the token is valid"
                 ],
-                "summary": "Refresh token",
-                "description": "Returns the user data",
-                "operationId": "2f35a9fa078ee4c8122aad8b8c0adc33",
+                "summary": "Check token",
+                "description": "Returns token, status and message",
+                "operationId": "0360ae12d7fab710028bfa25cbc9b57e",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -184,13 +189,18 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             }
         },
         "/auth/authorize": {
             "post": {
                 "tags": [
-                    "authorize"
+                    "Get authorized user data"
                 ],
                 "summary": "Check if user is logged in",
                 "description": "Returns the user data",
@@ -226,16 +236,21 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             }
         },
         "/auth/change-password": {
             "post": {
                 "tags": [
-                    "authorize"
+                    "Change authorized user's password"
                 ],
                 "summary": "Check if user is logged in",
-                "description": "Returns the user data",
+                "description": "Returns password change status",
                 "operationId": "e9210ecd43221a32527c555522eb5ade",
                 "requestBody": {
                     "required": true,
@@ -268,12 +283,86 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/auth/token/refresh": {
+            "post": {
+                "tags": [
+                    "Refresh token"
+                ],
+                "summary": "Refresh token",
+                "description": "Returns new token",
+                "operationId": "9034c3bc2d3f94a6749e2bfa6d6cc72a",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             }
         }
     },
     "components": {
         "schemas": {
+            "UserAuthRegisterRequestSchema": {
+                "title": "User registiration request model",
+                "description": "User registiration request model",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of the user",
+                        "type": "string",
+                        "example": "Tuğrul"
+                    },
+                    "surname": {
+                        "title": "Surname",
+                        "description": "Surname of the user",
+                        "type": "string",
+                        "example": "Yıldırım"
+                    },
+                    "username": {
+                        "title": "Username",
+                        "description": "Username of the user",
+                        "type": "string",
+                        "example": "tugrulyildirim"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email of the user",
+                        "type": "string",
+                        "example": "contact[at]tugrulyildirim.com"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "description": "Password of the user",
+                        "type": "string",
+                        "example": "123456"
+                    },
+                    "password_confirmation": {
+                        "title": "Password confirmation",
+                        "description": "Password confirmation of the user",
+                        "type": "string",
+                        "example": "123456"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserAuthRegisterRequestSchema"
+                }
+            },
             "UserAuthRequestSchema": {
                 "title": "User authentication request model",
                 "description": "User authentication request model",
@@ -396,16 +485,6 @@
             "UserAuthorizeRequestSchema": {
                 "title": "User authorisation request model",
                 "description": "User authorisation request model",
-                "properties": {
-                    "token": {
-                        "title": "Token",
-                        "description": "Send token in header",
-                        "type": "string",
-                        "format": "string",
-                        "example": "bearer token123..."
-                    }
-                },
-                "type": "object",
                 "xml": {
                     "name": "UserAuthorizeRequestSchema"
                 }
@@ -837,17 +916,11 @@
                 "flows": {
                     "password": {
                         "authorizationUrl": "http://admin.local/api/v1/auth/authorize",
-                        "tokenUrl": "http://admin.local/api/v1/auth/token",
+                        "tokenUrl": "http://admin.local/api/v1/auth/login",
                         "refreshUrl": "http://admin.local/api/v1/auth/token/refresh",
                         "scopes": []
                     }
                 }
-            },
-            "sanctum": {
-                "type": "apiKey",
-                "description": "Enter token in format (Bearer <token>)",
-                "name": "Authorization",
-                "in": "header"
             }
         }
     },
@@ -855,6 +928,15 @@
         {
             "name": "Projects",
             "description": "API Endpoints of Projects"
+        }
+    ],
+    "security": [
+        {
+            "oauth2_security_example": [
+                "read",
+                "write"
+            ],
+            "passport": []
         }
     ]
 }

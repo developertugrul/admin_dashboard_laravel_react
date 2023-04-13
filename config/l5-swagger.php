@@ -61,7 +61,17 @@ return [
              * Middleware allows to prevent unexpected access to API documentation
             */
             'middleware' => [
-                'api' => [],
+                'api' => [
+                    \App\Http\Middleware\EncryptCookies::class,
+                    \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+                    \Illuminate\Session\Middleware\StartSession::class,
+                    \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+                    \App\Http\Middleware\VerifyCsrfToken::class,
+                    \Illuminate\Routing\Middleware\SubstituteBindings::class,
+                    \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
+                    'auth',
+                    'title' => 'Integration Swagger in TugrulYildirim Admin Panel Passport Auth',
+                ],
                 'asset' => [],
                 'docs' => [],
                 'oauth2_callback' => [],
@@ -184,32 +194,33 @@ return [
                     'flows' => [
                         "password" => [
                             "authorizationUrl" => config('app.url') . '/api/v1/auth/authorize',
-                            "tokenUrl" => config('app.url') . '/api/v1/auth/token',
+                            "tokenUrl" => config('app.url') . '/api/v1/auth/login',
                             "refreshUrl" => config('app.url') . '/api/v1/auth/token/refresh',
                             "scopes" => []
                         ],
                     ],
                 ],
-                'sanctum' => [ // Unique name of security
+                /*
+                 * 'sanctum' => [ // Unique name of security
                     'type' => 'apiKey', // Valid values are "basic", "apiKey" or "oauth2".
                     'description' => 'Enter token in format (Bearer <token>)',
                     'name' => 'Authorization', // The name of the header or query parameter to be used.
                     'in' => 'header', // The location of the API key. Valid values are "query" or "header".
                 ],
+                 * */
             ],
             'security' => [
                 /*
                  * Examples of Securities
                 */
                 [
-                    /*
+
                     'oauth2_security_example' => [
                         'read',
                         'write'
                     ],
 
                     'passport' => []
-                    */
                 ],
             ],
         ],

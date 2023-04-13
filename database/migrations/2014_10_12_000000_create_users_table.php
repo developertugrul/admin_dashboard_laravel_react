@@ -39,7 +39,7 @@ return new class extends Migration {
             $table->double('default_tax_rate', 5, 2)->default(0);
             $table->string('timezone', 255)->default("Europe/Istanbul");
             $table->string('language', 7)->default("tr");
-            $table->boolean('status')->default(true);
+            $table->boolean('status')->default(false);
             $table->boolean('is_admin')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string("user_roles", 1000)->nullable();

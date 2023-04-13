@@ -2,11 +2,38 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "watch": "vite build --watch"
     },
     "devDependencies": {
         "axios": "^1.1.2",
         "laravel-vite-plugin": "^0.7.2",
         "vite": "^4.0.0"
+    },
+    "dependencies": {
+        "@reduxjs/toolkit": "^1.9.3",
+        "@vitejs/plugin-react": "^3.1.0",
+        "i18next": "^22.4.14",
+        "i18next-browser-languagedetector": "^7.0.1",
+        "i18next-http-backend": "^2.2.0",
+        "i18next-localstorage-cache": "^1.1.1",
+        "i18next-xhr-backend": "^3.2.2",
+        "js-cookie": "^3.0.1",
+        "lodash": "^4.17.21",
+        "react": "^18.2.0",
+        "react-country-flag": "^3.1.0",
+        "react-data-table-component": "^7.5.3",
+        "react-dom": "^18.2.0",
+        "react-hook-form": "^7.43.9",
+        "react-i18next": "^12.2.0",
+        "react-redux": "^8.0.5",
+        "react-router-dom": "^6.10.0",
+        "redux": "^4.2.1",
+        "redux-persist": "^6.0.0",
+        "redux-thunk": "^2.4.2",
+        "sass": "^1.62.0",
+        "styled-components": "^5.3.9",
+        "sweetalert2": "^11.7.3",
+        "sweetalert2-react-content": "^5.0.7"
     }
 }
