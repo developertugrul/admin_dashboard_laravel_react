@@ -1,0 +1,16 @@
+{
+    "pen": "Pen",
+    "eraser": "Eraser",
+    "create": "Create",
+    "edit": "Edit",
+    "undo": "Undo",
+    "delete": "Delete",
+    "copy": "Copy",
+    "cut": "Cut",
+    "paste": "Paste",
+    "select_all": "Select All",
+    "view": "View",
+    "detail": "Detail",
+    "active": "Active",
+    "inactive": "Inactive"
+}

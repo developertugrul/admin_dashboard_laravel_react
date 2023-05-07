@@ -1,0 +1,14 @@
+@import "../../Styles/colors.scss";
+.main{
+    min-height: 100vh;
+    background: $background-color;
+    font-size: 16px;
+
+    &__content{
+        padding: 20px;
+
+        @media (max-width: 540px) {
+            padding: 0;
+        }
+    }
+}

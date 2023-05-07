@@ -1,0 +1,41 @@
+@import "../../Styles/colors.scss";
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+
+    &__logo{
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: $link-color;
+
+        img {
+            max-width: 100px;
+            width: 100%;
+        }
+    }
+
+    &__menu {
+
+        &__ul {
+            list-style: none;
+            display: flex;
+            padding-left: 0;
+            margin-bottom: 0;
+            justify-content: end;
+
+            &__li {
+                padding-right: 1rem;
+                text-align: right;
+
+                &__a {
+                    text-decoration: none;
+                    color: $link-color;
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}

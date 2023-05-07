@@ -8,6 +8,8 @@
 
     @viteReactRefresh
     @vite('resources/js/app.jsx')
+
+    <meta name="robots" content="noindex, nofollow">
 </head>
 <body>
 <div id="app"></div>

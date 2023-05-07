@@ -1,0 +1,16 @@
+{
+    "pen": "Bolígrafo",
+    "eraser": "Borrador",
+    "create": "Crear",
+    "edit": "Editar",
+    "undo": "Deshacer",
+    "delete": "Borrar",
+    "copy": "Copiar",
+    "cut": "Cortar",
+    "paste": "Pegar",
+    "select_all": "Seleccionar todo",
+    "view": "Ver",
+    "detail": "Detalle",
+    "active": "Activo",
+    "inactive": "Inactivo"
+}

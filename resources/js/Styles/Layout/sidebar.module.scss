@@ -1,0 +1,56 @@
+@import "../../Styles/colors.scss";
+
+.sidebar {
+    padding: 15px;
+    width: 100%;
+    min-height: 100vh;
+    border-right: 1px solid lightgray;
+
+    &__logo {
+        margin-bottom: 15px;
+
+        img {
+            width: 100%;
+            max-width: 100px;
+            margin-right: auto;
+        }
+    }
+
+    &__menu {
+        margin-bottom: 15px;
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            li {
+                margin-bottom: 10px;
+
+                a {
+                    color: #7c8fac;
+                    font-size: 14px;
+                    font-weight: 500;
+                    padding: 5px 10px;
+                    text-decoration: none;
+                    transition: all .3s ease;
+                    border-radius: 5px;
+                    display: flex;
+                    justify-content: start;
+                    align-items: center;
+                    gap: 7px;
+
+                    &:active {
+                        background: $button-color;
+                        color: $active-link-color;
+                    }
+
+                    &:hover {
+                        background-color: $hover-button-color;
+                        color: $hover-link-color;
+                    }
+                }
+            }
+        }
+    }
+}

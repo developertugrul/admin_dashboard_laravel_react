@@ -21,9 +21,9 @@ Route::group(["prefix" => "v1"], function () {
     });
 
     Route::group(["middleware" => "auth:api"], function () {
-        Route::group(["prefix" => "user"], function () {
+        Route::group(["prefix" => "users"], function () {
             Route::controller(\App\Http\Controllers\APIS\v1\Management\User\ListController::class)->group(function () {
-                Route::get("list", "list")->name("api.v1.user.list");
+                Route::post("list", "list")->name("api.v1.user.list");
             });
         });
     });

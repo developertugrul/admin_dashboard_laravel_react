@@ -1,0 +1,16 @@
+{
+    "user_list": "User list",
+    "user_details": "User details",
+    "is_active": "Is active",
+    "name": "Name",
+    "surname": "Surname",
+    "email": "E-mail",
+    "phone": "Phone",
+    "address": "Address",
+    "city": "City",
+    "state": "State",
+    "country": "Country",
+    "zip_code": "Zip code",
+    "user_type": "User type",
+    "invoice_prefix": "Invoice prefix"
+}

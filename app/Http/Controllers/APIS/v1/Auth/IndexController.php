@@ -233,14 +233,16 @@ class IndexController extends Controller
             return response()->json([
                 'success' => true,
                 'token' => $request->bearerToken(),
-                'message' => 'token_is_valid'
+                'message' => 'token_is_valid',
+                'user' => $request->user()
             ], 200);
         }
 
         return response()->json([
             'success' => false,
             'token' => $request->bearerToken(),
-            'message' => 'Token is invalid'
+            'message' => 'Token is invalid',
+            'user' => null
         ], 401);
     }
 

@@ -1,0 +1,16 @@
+{
+    "user_list": "Benutzerliste",
+    "user_details": "Benutzerdetails",
+    "is_active": "Aktiv",
+    "name": "Name",
+    "surname": "Nachname",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "address": "Adresse",
+    "city": "Stadt",
+    "state": "Bundesland",
+    "country": "Land",
+    "zip_code": "Postleitzahl",
+    "user_type": "Benutzertyp",
+    "invoice_prefix": "Rechnungspräfix"
+}

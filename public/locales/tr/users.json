@@ -1,0 +1,16 @@
+{
+    "user_list": "Kullanıcı listesi",
+    "user_details": "Kullanıcı bilgileri",
+    "is_active": "Aktif",
+    "name": "Ad",
+    "surname": "Soyad",
+    "email": "E-posta",
+    "phone": "Telefon",
+    "address": "Adres",
+    "city": "İlçe",
+    "state": "İl",
+    "country": "Ülke",
+    "zip_code": "Posta kodu",
+    "user_type": "Kullanıcı tipi",
+    "invoice_prefix": "Fatura öneki"
+}

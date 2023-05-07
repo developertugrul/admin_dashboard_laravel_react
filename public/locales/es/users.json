@@ -1,0 +1,16 @@
+{
+    "user_list": "Lista de usuarios",
+    "user_details": "Detalles del usuario",
+    "is_active": "Activo",
+    "name": "Nombre",
+    "surname": "Apellido",
+    "email": "Correo electrónico",
+    "phone": "Teléfono",
+    "address": "Dirección",
+    "city": "Ciudad",
+    "state": "Estado",
+    "country": "País",
+    "zip_code": "Código postal",
+    "user_type": "Tipo de usuario",
+    "invoice_prefix": "Prefijo de factura"
+}

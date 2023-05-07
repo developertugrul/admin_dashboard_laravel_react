@@ -1,0 +1,16 @@
+{
+    "pen": "Stift",
+    "eraser": "Radiergummi",
+    "create": "Erstellen",
+    "edit": "Bearbeiten",
+    "undo": "Rückgängig",
+    "delete": "Löschen",
+    "copy": "Kopieren",
+    "cut": "Ausschneiden",
+    "paste": "Einfügen",
+    "select_all": "Alles auswählen",
+    "view": "Ansicht",
+    "detail": "Detail",
+    "active": "Aktiv",
+    "inactive": "Inaktiv"
+}

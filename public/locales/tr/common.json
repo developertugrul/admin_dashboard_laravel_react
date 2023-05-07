@@ -1,0 +1,16 @@
+{
+    "pen": "Kalem",
+    "eraser": "Silgi",
+    "create": "Ekle",
+    "edit": "Düzenle",
+    "undo": "Geri Al",
+    "delete": "Sil",
+    "copy": "Kopyala",
+    "cut": "Kes",
+    "paste": "Yapıştır",
+    "select_all": "Tümünü Seç",
+    "view": "Görünüm",
+    "detail": "Detay",
+    "active": "Aktif",
+    "inactive": "Pasif"
+}
